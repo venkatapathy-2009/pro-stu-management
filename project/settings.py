@@ -9,6 +9,10 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
+import os
+import dj_database_url
+import dotenv
+dotenv.load_dotenv()
 
 from pathlib import Path
 
@@ -74,7 +78,7 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    'default': 
+    'default': dj_database_url.config(default=os.getenv("DATABASE_URL"))
     
     
 }
