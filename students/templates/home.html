@@ -13,7 +13,7 @@
         <li>{{ i.name }}</li>
         <li>{{ i.email }}</li>
         <li>{{ i.roll_no }}</li>
-        {% comment %} <a href="{% url 'edit' %}"> edit</a> {% endcomment %}
+        <a href="{% url 'edit' i.id %}"> edit</a>
         <a href="{% url 'remove' i.id  %}">remove</a>
     </ul>
     {% endfor %}

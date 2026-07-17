@@ -19,3 +19,15 @@ def remove(request,pk):
     rem=student.objects.get(id=pk)
     rem.delete()
     return redirect('home')
+def edit(request,pk):
+    edit = get_object_or_404(student,pk=pk)
+    forms=stu_form(instance=edit)
+    if request.method == "POST":
+        forms=stu_form(request.POST,instance=edit)
+        if forms.is_valid():
+            forms.save()
+            return redirect ('home')
+        else:
+            forms=stu_form(instance=edit)
+    return render(request,'edit.html',{'forms':forms})
+    
