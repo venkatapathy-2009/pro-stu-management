@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>student list </h1>
+    {% for i in stu_obj %}
+    <ul>
+        <li>{{ i.idi }}</li>
+        <li>{{ i.name }}</li>
+        <li>{{ i.email }}</li>
+        <li>{{ i.roll_no }}</li>
+        <a href="{% url 'edit' %}"> edit</a>
+        <a href="{% url 'remove' %}">remove</a>
+    </ul>
+    {% endfor %}
+    <a href={% url 'add_st' %}>add</a>
+
+
+
+
+</body>
+</html>
