@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from .models import student
 from .forms import stu_form
 def home(request):
@@ -15,3 +15,7 @@ def ad(request):
         else:
             forms=stu_form()
     return render(request,'add.html',{'forms':forms})
+def remove(request,pk):
+    rem=student.objects.get(id=pk)
+    rem.delete()
+    return redirect('home')
