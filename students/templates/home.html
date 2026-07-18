@@ -1,38 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
+{% block title %}Student Records{% endblock %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
-        integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
-        crossorigin="anonymous"></script>
-</head>
+{% block content %}
+<div class="page-shell">
+    <div class="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-4">
+        <div>
+            <div class="eyebrow">Roster</div>
+            <h1 class="page-title">Students</h1>
+            <p class="page-subtitle">{{ stu_obj|length }} record{{ stu_obj|length|pluralize }} on file</p>
+        </div>
+        <a href="{% url 'add_st' %}" class="btn btn-accent">
+            <i class="bi bi-plus-lg me-1"></i> Add student
+        </a>
+    </div>
 
-<body>
-
-    <h1>student list </h1>
-    {% for i in stu_obj %}
-    <ul>
-        <li>{{ i.idi }}</li>
-        <li>{{ i.name }}</li>
-        <li>{{ i.email }}</li>
-        <li>{{ i.roll_no }}</li>
-        <a  class="btn btn-primary" href="{% url 'edit' i.id %}">edit</a>
-        <a class="btn btn-primary" href="{% url 'remove' i.id  %}">remove</a>
-    </ul>
-    {% endfor %}
-    <a class="btn btn-primary" href={% url 'add_st' %}>add</a>
-
-</body>
-
-</html>
+    {% if stu_obj %}
+    <div class="panel overflow-hidden">
+        <table class="table align-middle mb-0">
+            <thead>
+                <tr style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em;">
+                    <th class="ps-4 py-3 fw-semibold">Student</th>
+                    <th class="py-3 fw-semibold">ID</th>
+                    <th class="py-3 fw-semibold">Roll no.</th>
+                    <th class="py-3 fw-semibold">Email</th>
+                    <th class="pe-4 py-3 text-end fw-semibold">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in stu_obj %}
+                <tr style="border-top: 1px solid var(--border);">
+                    <td class="ps-4 py-3">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="d-inline-flex align-items-center justify-content-center"
+                                  style="width:36px;height:36px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-weight:700;font-size:0.85rem;">
+                                {{ i.name|slice:":1"|upper }}
+                            </span>
+                            <span class="fw-semibold">{{ i.name }}</span>
+                        </div>
+                    </td>
+                    <td class="py-3" style="color: var(--text-muted);">{{ i.idi }}</td>
+                    <td class="py-3" style="color: var(--text-muted);">{{ i.roll_no }}</td>
+                    <td class="py-3" style="color: var(--text-muted);">{{ i.email }}</td>
+                    <td class="pe-4 py-3">
+                        <div class="d-flex justify-content-end gap-2">
+                            <a href="{% url 'edit' i.id %}" class="icon-btn" title="Edit">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a href="{% url 'remove' i.id %}" class="icon-btn danger" title="Remove"
+                               onclick="return confirm('Remove {{ i.name }} from the roster?');">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="panel text-center py-5">
+        <div class="d-inline-flex align-items-center justify-content-center mb-3"
+             style="width:56px;height:56px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:1.4rem;">
+            <i class="bi bi-people"></i>
+        </div>
+        <h2 class="h5 mb-1">No students yet</h2>
+        <p class="page-subtitle mb-4">Add your first student to start building the roster.</p>
+        <a href="{% url 'add_st' %}" class="btn btn-accent">
+            <i class="bi bi-plus-lg me-1"></i> Add student
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

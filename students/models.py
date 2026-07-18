@@ -4,6 +4,4 @@ class student(models.Model):
     name=models.CharField(max_length=100)
     roll_no=models.IntegerField(unique=True)
     email=models.EmailField(unique=True)
-      
 
-# Create your models here.

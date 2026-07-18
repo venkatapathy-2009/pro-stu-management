@@ -1,15 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form method="POST">
-        {% csrf_token %}
-        {{ forms.as_p }}
-        <button type="submit" >save</button>
-    </form>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Edit student{% endblock %}
+
+{% block content %}
+<div class="page-shell" style="max-width: 560px;">
+    <a href="{% url 'home' %}" class="d-inline-flex align-items-center gap-1 mb-4" style="color: var(--text-muted); font-size: 0.9rem;">
+        <i class="bi bi-arrow-left"></i> Back to roster
+    </a>
+
+    <div class="panel p-4 p-md-5">
+        <div class="eyebrow">Edit record</div>
+        <h1 class="page-title" style="font-size: 1.6rem;">Update student</h1>
+        <p class="page-subtitle mb-4">Make your changes and save to update the roster.</p>
+
+        <form method="POST" novalidate>
+            {% csrf_token %}
+            {% for field in forms %}
+            <div class="form-floating mb-3">
+                {{ field }}
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {% if field.errors %}
+                <div class="small mt-1" style="color: var(--danger);">{{ field.errors|striptags }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+
+            <div class="d-flex gap-2 mt-4">
+                <button type="submit" class="btn btn-accent">
+                    <i class="bi bi-check-lg me-1"></i> Save changes
+                </button>
+                <a href="{% url 'home' %}" class="btn btn-ghost">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
